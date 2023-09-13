@@ -3,7 +3,7 @@
 #include "uart_ptr.h"
 
 int char_index;
-#define TESTING_ENV
+// #define TESTING_ENV
 
 void setUp() {
     char_index = 0;
@@ -12,7 +12,10 @@ void tearDown() {}
 
 void test_uart_out(const struct device *dev, char ch) {
     char expected = 'A' + char_index - 1;
-    TEST_ASSERT_TRUE(ch == expected);
+    if (char_index == 27)
+        TEST_ASSERT_EQUAL_CHAR('\n', ch);
+    else
+        TEST_ASSERT_EQUAL_CHAR(expected, ch);
 }
 
 int test_uart_in(const struct device *dev, char *ch) {
